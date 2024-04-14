@@ -4,11 +4,12 @@ import matplotlib.pyplot as plt
 def lire_donnees(nom_fichier):
     with open(nom_fichier, 'r') as fichier:
         lignes = fichier.readlines()
-        donnees = [float(ligne.strip()) for ligne in lignes]  # Convertir les lignes en nombres flottants
+        donnees = [[float(val) for val in ligne.strip().split(',')] for ligne in lignes]
     return donnees
 
 # Fonction pour créer un graphique à partir des données
 def creer_graphique(x, y, titre, xlabel, ylabel):
+    assert len(x) == len(y), "Les dimensions de x et y ne correspondent pas"
     plt.plot(x, y)
     plt.title(titre)
     plt.xlabel(xlabel)
@@ -16,11 +17,11 @@ def creer_graphique(x, y, titre, xlabel, ylabel):
     plt.show()
 
 # Lire les données du fichier texte
-donnees = lire_donnees('donnees.txt')
+donnees = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/essaiEMG.txt')
 
-# Supposons que vous avez déjà extrait les données nécessaires
-x = [1, 2, 3, 4, 5]  # Exemple de données pour l'axe des x
-y = donnees[:5]      # Exemple de données pour l'axe des y
+# Séparer les données x et y
+x = [point[0] for point in donnees]
+y = [point[1] for point in donnees]
 
 # Créer le graphique
 creer_graphique(x, y, 'Mon Graphique', 'Axe des x', 'Axe des y')

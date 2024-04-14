@@ -1,0 +1,69 @@
+# Fonction pour lire les données du fichier texte
+def lire_donnees(nom_fichier):
+    with open(nom_fichier, 'r') as fichier:
+        lignes = fichier.readlines()
+        donnees = [[float(val) for val in ligne.strip().split(',')] for ligne in lignes]
+    return donnees
+
+# Seuil pour définir ce qui est une donnée aberrante (seuil en dessous duquel une valeur est aberrante)
+seuil_aberration = 900
+
+# Fonction pour détecter et corriger les valeurs aberrantes
+def detecter_et_corriger_aberrations(donnees):
+    donnees_corrigees = donnees[:]
+
+    for i in range(len(donnees)):
+        valeur_actuelle = donnees[i][1]
+
+        # Vérifier si la valeur est en dessous du seuil d'aberration
+        if valeur_actuelle < seuil_aberration:
+            # Rechercher la première valeur non aberrante avant
+            valeur_precedente_index = chercher_valeur_non_aberrante(donnees, i, direction='precedente')
+            # Rechercher la première valeur non aberrante après
+            valeur_suivante_index = chercher_valeur_non_aberrante(donnees, i, direction='suivante')
+
+            # Calculer la moyenne des valeurs non aberrantes
+            if valeur_precedente_index is not None and valeur_suivante_index is not None:
+                moyenne = (donnees[valeur_precedente_index][1] + donnees[valeur_suivante_index][1]) / 2.0
+                # Remplacer les valeurs aberrantes par la moyenne
+                for j in range(valeur_precedente_index + 1, valeur_suivante_index):
+                    donnees_corrigees[j][1] = moyenne
+
+    return donnees_corrigees
+
+# Fonction pour chercher la première valeur non aberrante dans une direction donnée
+def chercher_valeur_non_aberrante(donnees, index, direction):
+    if direction == 'precedente':
+        pas = -1
+        limite = -1
+    elif direction == 'suivante':
+        pas = 1
+        limite = len(donnees)
+
+    for i in range(index + pas, limite, pas):
+        if donnees[i][1] >= seuil_aberration:
+            return i
+
+    return None
+
+# Fonction pour écrire les données dans un fichier texte
+def ecrire_donnees_corrigees(nom_fichier, donnees_corrigees):
+    with open(nom_fichier, 'w') as fichier:
+        for point in donnees_corrigees:
+            fichier.write(f"{point[0]}, {point[1]}\n")
+
+# Lire les données du fichier texte
+donnees = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/essaiEMG.txt')
+
+# Détecter et corriger les valeurs aberrantes
+donnees_corrigees = detecter_et_corriger_aberrations(donnees)
+
+# Écrire les données corrigées dans un fichier texte
+ecrire_donnees_corrigees('donnees_corrigees.txt', donnees_corrigees)
+
+
+
+
+
+
+

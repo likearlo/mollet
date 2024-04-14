@@ -1,0 +1,58 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Fonction pour lire les données à partir du fichier txt
+def lire_donnees(filename):
+    with open(filename, 'r') as file:
+        data = file.readlines()
+    return data
+
+# Fonction pour extraire les données du fichier et les convertir en tableaux numpy
+def extraire_donnees(data):
+    temps = []
+    accélération_x = []
+    accélération_y = []
+    accélération_z = []
+
+    for line in data:
+        values = line.strip().split(',')
+        temps.append(float(values[0]))
+        accélération_x.append(float(values[1]))
+        accélération_y.append(float(values[2]))
+        accélération_z.append(float(values[3]))
+
+    return np.array(temps), np.array(accélération_x), np.array(accélération_y), np.array(accélération_z)
+
+# Fonction pour afficher les graphiques
+def afficher_graphiques(temps, accélération_x, accélération_y, accélération_z):
+    plt.figure(figsize=(12, 6))
+
+    plt.subplot(3, 1, 1)
+    plt.plot(temps, accélération_x, color='r')
+    plt.title('Accélération X')
+    plt.xlabel('Temps (s)')
+    plt.ylabel('Valeur')
+
+    plt.subplot(3, 1, 2)
+    plt.plot(temps, accélération_y, color='g')
+    plt.title('Accélération Y')
+    plt.xlabel('Temps (s)')
+    plt.ylabel('Valeur')
+
+    plt.subplot(3, 1, 3)
+    plt.plot(temps, accélération_z, color='b')
+    plt.title('Accélération Z')
+    plt.xlabel('Temps (s)')
+    plt.ylabel('Valeur')
+
+    plt.tight_layout()
+    plt.show()
+
+# Lecture des données
+data = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/essaiaccélération.txt')
+
+# Extraction des données
+temps, accélération_x, accélération_y, accélération_z = extraire_donnees(data)
+
+# Affichage des graphiques
+afficher_graphiques(temps, accélération_x, accélération_y, accélération_z)
