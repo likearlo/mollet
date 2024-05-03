@@ -17,7 +17,7 @@ def creer_graphique(x, y, titre, xlabel, ylabel):
     plt.show()
 
 # Lire les données du fichier texte
-donnees = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/essaiEMG.txt')
+donnees = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/donnees_corrigees.txt')
 
 # Séparer les données x et y
 x = [point[0] for point in donnees]
