@@ -60,10 +60,3 @@ donnees_corrigees = detecter_et_corriger_aberrations(donnees)
 
 # Écrire les données corrigées dans un fichier texte
 ecrire_donnees_corrigees('donnees_corrigees.txt', donnees_corrigees)
-
-
-
-
-
-
-
