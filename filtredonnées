@@ -53,7 +53,7 @@ def ecrire_donnees_corrigees(nom_fichier, donnees_corrigees):
             fichier.write(f"{point[0]}, {point[1]}\n")
 
 # Lire les données du fichier texte
-donnees = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/essaiEMG.txt')
+donnees = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/MARCHE 1 20 sec.txt')
 
 # Détecter et corriger les valeurs aberrantes
 donnees_corrigees = detecter_et_corriger_aberrations(donnees)

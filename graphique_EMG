@@ -17,11 +17,11 @@ def creer_graphique(x, y, titre, xlabel, ylabel):
     plt.show()
 
 # Lire les données du fichier texte
-donnees = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/donnees_corrigees.txt')
+donnees = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/MARCHE 1 20 sec.txt')
 
 # Séparer les données x et y
 x = [point[0] for point in donnees]
-y = [point[1] for point in donnees]
+y = [point[8] for point in donnees]
 
 # Créer le graphique
 creer_graphique(x, y, 'Mon Graphique', 'Axe des x', 'Axe des y')
