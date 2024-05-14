@@ -1,0 +1,49 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+# Fonction pour lire les données à partir du fichier txt
+def lire_donnees(filename):
+    with open(filename, 'r') as file:
+        data = file.readlines()
+    return data
+
+# Fonction pour extraire les données du fichier et les convertir en tableaux numpy
+def extraire_donnees(data):
+    temps = []
+    gyro_x = []
+    gyro_y = []
+    gyro_z = []
+
+    for line in data:
+        values = line.strip().split(',')
+        temps.append(float(values[0]))
+        gyro_x.append(float(values[4]))
+        gyro_y.append(float(values[5]))
+        gyro_z.append(float(values[6]))
+
+    return np.array(temps), np.array(gyro_x), np.array(gyro_y), np.array(gyro_z)
+
+# Fonction pour afficher le graphique 3D du mouvement en fonction du temps
+def afficher_graphique_3D(temps, gyro_x, gyro_y, gyro_z):
+    fig = plt.figure(figsize=(10, 8))
+    ax = fig.add_subplot(111, projection='3d')
+
+    ax.plot(gyro_x, gyro_y, gyro_z, color='b')
+
+    ax.set_xlabel('Gyroscope X')
+    ax.set_ylabel('Gyroscope Y')
+    ax.set_zlabel('Gyroscope Z')
+
+    ax.set_title('Mouvement en fonction du temps')
+
+    plt.show()
+
+# Lecture des données
+data = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/MARCHE 1 20 sec.txt')
+
+# Extraction des données
+temps, gyro_x, gyro_y, gyro_z = extraire_donnees(data)
+
+# Affichage du graphique 3D
+afficher_graphique_3D(temps, gyro_x, gyro_y, gyro_z)
