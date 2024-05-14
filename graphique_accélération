@@ -49,7 +49,7 @@ def afficher_graphiques(temps, accélération_x, accélération_y, accélératio
     plt.show()
 
 # Lecture des données
-data = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/essaiaccélération.txt')
+data = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/MARCHE 1 20 sec.txt')
 
 # Extraction des données
 temps, accélération_x, accélération_y, accélération_z = extraire_donnees(data)
