@@ -8,13 +8,32 @@
 
 Adafruit_MPU6050 mpu;
 File dataFile;
+const int nombreEchantillons = 20;
+int valeursRepos[nombreEchantillons];
+int index = 0;
+int somme = 0;
+int moyenneRepos = 0;
+float i = 0.0;
 
 void setup() {
   Serial.begin(9600);
   Serial.println(F("Initialize System"));
-  i=0
+  Serial.println("Calcul de la valeur de repos...");
+  delay(1000); // temps de positionner le capteur
 
-  if (!mpu.begin(0x68)) { // Change address if needed
+  for (int i = 0; i < nombreEchantillons; i++) {
+    valeursRepos[i] = analogRead(A6);
+    delay(50);
+  }
+
+  for (int i = 0; i < nombreEchantillons; i++) {
+    somme += valeursRepos[i];
+  }
+  moyenneRepos = somme / nombreEchantillons;
+  Serial.print("Valeur de repos calculée : ");
+  Serial.println(moyenneRepos);
+
+  if (!mpu.begin(0x68)) {
     Serial.println("Failed to find MPU6050 chip");
     while (1) {
       delay(10);
@@ -34,17 +53,18 @@ void setup() {
   // Création d'un nouveau fichier sur la carte SD
   dataFile = SD.open("data.txt", FILE_WRITE);
   if (!dataFile) {
-    Serial.println("Erreur lors de l'ouverture du fichier.");
+    //Serial.println("Erreur lors de l'ouverture du fichier.");
     return;
   }
 
   // Écriture de l'en-tête dans le fichier
-  dataFile.println("Acceleration X,Acceleration Y,Acceleration Z,Rotation X,Rotation Y,Rotation Z,Temperature, EMG");
+  //dataFile.println("Acceleration X,Acceleration Y,Acceleration Z,Rotation X,Rotation Y,Rotation Z,Temperature,EMG");
+  dataFile.close();
 }
+
 
 void loop() {
   readMPU();
-  i+=0.1
   delay(100);
 }
 
@@ -52,34 +72,23 @@ void readMPU() {
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
 
+  int valeurBrute = analogRead(A6);
+
+  // Appliquer la fonction d'étalonnage
+  int valeurEtalonnee = valeurBrute - moyenneRepos;
+  if (valeurEtalonnee < 0) {
+    valeurEtalonnee = 0;
+  }
+
   // Affichage des valeurs sur le moniteur série
-  //Serial.print("Acceleration X: ");
-  //Serial.print(a.acceleration.x);
-  //Serial.print(", Y: ");
-  //Serial.print(a.acceleration.y);
-  //Serial.print(", Z: ");
-  //Serial.print(a.acceleration.z);
-  //Serial.println(" m/s^2");
+  Serial.println(valeurEtalonnee);
 
-  //Serial.print("Rotation X: ");
-  //Serial.print(g.gyro.x);
-  //Serial.print(", Y: ");
-  //Serial.print(g.gyro.y);
-  //Serial.print(", Z: ");
-  //Serial.print(g.gyro.z);
-  //Serial.println(" rad/s");
-
-  //Serial.print("Temperature: ");
-  //Serial.print(temp.temperature);
-  //Serial.println("°C");
-  //Serial.println(analogRead(A0));
-  
-   dataFile = SD.open("data.txt", FILE_WRITE);
+  dataFile = SD.open("data.txt", FILE_WRITE);
   if (!dataFile) {
-    Serial.println("Erreur lors de l'ouverture du fichier.");
+    //Serial.println("Erreur lors de l'ouverture du fichier.");
     return;
   }
-  
+
   // Écriture des valeurs dans le fichier sur la carte SD
   dataFile.print(i);
   dataFile.print(",");
@@ -97,7 +106,8 @@ void readMPU() {
   dataFile.print(",");
   dataFile.print(temp.temperature);
   dataFile.print(",");
-  dataFile.print(analogRead(A0));
+  dataFile.print(valeurEtalonnee);
   dataFile.println();
   dataFile.close();
+  i += 0.1;
 }
