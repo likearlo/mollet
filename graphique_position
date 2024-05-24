@@ -49,7 +49,7 @@ def afficher_graphiques(temps, gyro_x, gyro_y, gyro_z):
     plt.show()
 
 # Lecture des données
-data = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/MARCHE 1 20 sec.txt')
+data = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/DATA_1.txt')
 
 # Extraction des données
 temps, gyro_x, gyro_y, gyro_z = extraire_donnees(data)
