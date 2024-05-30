@@ -30,6 +30,7 @@ void setup() {
     somme += valeursRepos[i];
   }
   moyenneRepos = somme / nombreEchantillons;
+  moyenneRepos - b= 20;
   Serial.print("Valeur de repos calculée : ");
   Serial.println(moyenneRepos);
 
@@ -53,7 +54,7 @@ void setup() {
   // Création d'un nouveau fichier sur la carte SD
   dataFile = SD.open("data.txt", FILE_WRITE);
   if (!dataFile) {
-    //Serial.println("Erreur lors de l'ouverture du fichier.");
+    Serial.println("Erreur lors de l'ouverture du fichier.");
     return;
   }
 
@@ -65,7 +66,7 @@ void setup() {
 
 void loop() {
   readMPU();
-  delay(100);
+  delay(50);
 }
 
 void readMPU() {
@@ -80,12 +81,12 @@ void readMPU() {
     valeurEtalonnee = 0;
   }
 
-  // Affichage des valeurs sur le moniteur série
+  // Affichage des valeurs sur le moniteur série 
   Serial.println(valeurEtalonnee);
 
   dataFile = SD.open("data.txt", FILE_WRITE);
   if (!dataFile) {
-    //Serial.println("Erreur lors de l'ouverture du fichier.");
+    Serial.println("Erreur lors de l'ouverture du fichier.");
     return;
   }
 
@@ -109,5 +110,5 @@ void readMPU() {
   dataFile.print(valeurEtalonnee);
   dataFile.println();
   dataFile.close();
-  i += 0.1;
+  i += 0.05;
 }
