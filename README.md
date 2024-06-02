@@ -1,4 +1,4 @@
-J'ai fait un code qui: 
+Le code: 
 
                        affiche les position x,y,z selon le temps
                        affiche les accélération x,y,z selon le temps
