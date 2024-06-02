@@ -4,7 +4,7 @@
 #include <SPI.h>
 #include <SD.h>
 
-#define SD_CS_PIN 4 // Broche CS de la carte SD
+#define SD_CS_PIN 4
 
 Adafruit_MPU6050 mpu;
 File dataFile;
@@ -19,7 +19,7 @@ void setup() {
   Serial.begin(9600);
   Serial.println(F("Initialize System"));
   Serial.println("Calcul de la valeur de repos...");
-  delay(1000); // temps de positionner le capteur
+  delay(1000); 
 
   for (int i = 0; i < nombreEchantillons; i++) {
     valeursRepos[i] = analogRead(A6);

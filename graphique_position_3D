@@ -40,7 +40,7 @@ def afficher_graphique_3D(temps, gyro_x, gyro_y, gyro_z):
     plt.show()
 
 # Lecture des données
-data = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/DATA21_E.txt')
+data = lire_donnees('C:/Users/alexd/OneDrive/Documents/GitHub/mollet/DATA/DATA23_E.txt')
 
 # Extraction des données
 temps, gyro_x, gyro_y, gyro_z = extraire_donnees(data)
